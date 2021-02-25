@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="persistencePU" transaction-type="JTA">
+    <!--provider>org.hibernate.jpa.HibernatePersistenceProvider</provider-->
+    <jta-data-source>java:app/JDBC/registroHorarios</jta-data-source>
+    <class>com.registro.entidades.Empleado</class>
+    <class>com.registro.entidades.Horario</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <!-- <property name="hibernate.show_sql" value="TRUE"/>
+            <property name= "hibernate.show_sql" value="true" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.user" value="app" />
+            <property name="javax.persistence.jdbc.password" value="app" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/ControlHorarios" /> -->
+      <property name="eclipselink.logging.level" value="FINE"/>
+    </properties>
+  </persistence-unit>
+</persistence>

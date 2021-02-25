@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        
+        <h:form id="formRegistro">
+
+                    <br />
+                    <h:outputText value="REGISTRO"
+                                  styleClass="titulo" /><br />
+
+                    <h:panelGrid title="Login" columns="3">
+                        DNI: <h:inputText id="dniNuevoUusario"
+                                          value="#{datosMB.dniUsuario}"
+                                             required="true"/>
+                        <h:message for="campodni" />
+                        NOMBRE: <h:inputText id="nombreNuevoUsuario"
+                                             value="#{datosMB.nombre}"
+                                             required="true"/>
+                        <h:message for="camponombre" />
+                        APELLIDOS:  <h:inputText id="apellidosNuevo"
+                                                value="#{datosMB.apellidos}"
+                                             required="true"/>
+                        <h:message for="campoapellidos" />
+                        CORREO:  <h:inputText id="correo"
+                                     value="#{datosMB.correo}"
+                                               />
+                        <h:message for="campocorreo" />
+                        CLAVE:  <h:inputText id="clave"
+                                            value="#{datosMB.clave}"
+                                               />
+                        <h:message for="campoclave" />
+                        CARGO:  <h:inputText id="cargo"
+                                     value="#{datosMB.cargo}"
+                                               />
+                        <h:message for="campocargo" />
+                        
+                        
+                        <h:commandButton value="REGISTRAR NUEVO "  action="#{datosMB.nuevoEmpleado()}"/>
+                        <h:commandButton value="CANCELAR" 
+                                         immediate="true" />
+
+                    </h:panelGrid>
+                </h:form>
+    </body>
+</html>
