@@ -13,7 +13,9 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
@@ -28,7 +30,8 @@ public class ServicioEmpleado implements ServicioEmpleadoLocal {
 
     @PersistenceContext (unitName = "persistencePU")
     private EntityManager em;
-    
+    //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistencePU");
+    //EntityManager em = entityManagerFactory.createEntityManager();
     
     @Override
     public void login(String usuariodni, String clave, HttpSession session) throws ExcepcionesEmpleados {
@@ -50,8 +53,18 @@ public class ServicioEmpleado implements ServicioEmpleadoLocal {
     }
 
     @Override
-    public void archivarEmpleado(int idEmpleado) throws ExcepcionesEmpleados {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void archivarEmpleado(Empleado empleado ) throws ExcepcionesEmpleados {
+       try {
+            Empleado e = em.find(Empleado.class, empleado.getId());
+            if (e ==  null){
+                 throw new ExcepcionesEmpleados("Error en archivar el empleado");
+            }
+            em.merge(empleado);
+            
+        } catch (OptimisticLockException ole) {
+            throw new ExcepcionesEmpleados ("La persona interesada actual ya ha sido modificada "
+                    + " por otra persona. \n Por favor vuelva a recuperarlo. ");
+        }
     }
 
    
@@ -64,7 +77,7 @@ public class ServicioEmpleado implements ServicioEmpleadoLocal {
         //sesion.getTransaction().commit();
         //sesion.close();
         em.persist(empleado);
-    }
+        }
 
     @Override
     public void modificarEmpleado(Empleado empleado) throws ExcepcionesEmpleados {
@@ -79,6 +92,23 @@ public class ServicioEmpleado implements ServicioEmpleadoLocal {
             throw new ExcepcionesEmpleados ("La persona interesada actual ya ha sido modificada "
                     + " por otra persona. \n Por favor vuelva a recuperarlo. ");
         }
+    }
+
+    @Override
+    public Empleado buscarEmpleado(String dni) throws ExcepcionesEmpleados {
+        Query query = em.createNamedQuery("Empleado.findByDni");
+      
+        query.setParameter("dni", dni);
+        
+        query.setMaxResults(1);
+        String consulta = query.toString();
+        List<Empleado> empleados = query.getResultList();
+        
+        if(empleados == null || empleados.size()==0){
+                throw new ExcepcionesEmpleados("Error en la busqueda - No hay empleados con el DNI incluido \n"
+                        + " puedes generar uno Nuevo");
+        }
+        return empleados.get(0);
     }
 
     

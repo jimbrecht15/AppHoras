@@ -25,6 +25,8 @@ public interface ServicioEmpleadoLocal {
 
     public void modificarEmpleado(Empleado empleado) throws ExcepcionesEmpleados;  //Modificar o cambiar de contraseña 
 
-    public void archivarEmpleado(int idEmpleado) throws ExcepcionesEmpleados;
+    public void archivarEmpleado(Empleado empleado) throws ExcepcionesEmpleados;
+
+    public Empleado buscarEmpleado(String dni) throws ExcepcionesEmpleados;
     
 }

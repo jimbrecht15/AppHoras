@@ -13,12 +13,31 @@ and open the template in the editor.
     </head>
     <body>
         
-        <h:form id="formRegistro">
+         <h:form id="formBusc">
 
-                    <br />
-                    <h:outputText value="REGISTRO"
+              <h:outputText value="MANTENIMIENTO DE LA APLICACIÓN "
+                                  styleClass="titulo" /><br />
+             
+                    <h:panelGrid title="BUSCAR" columns="3">
+                        DNI: <h:inputText id="dni"
+                                          value="#{datosMB.empleado.dni}"
+                                            />
+                        <h:message for="dni" />
+                        
+                        <h:commandButton value="buscar" action="#{datosMB.buscar()}"/>
+                        <h:commandButton value="cancelar" action="resgistro1.xhtml"
+                                         immediate="true" />
+
+                    </h:panelGrid>
+                </h:form>
+        
+        <h:form id="formRegistro" rendered="#{datosMB.visible}">
+            
+             <br />
+                    <h:outputText value="MODIFICAR"
                                   styleClass="titulo" /><br />
 
+                
                     <h:panelGrid title="Login" columns="3">
                         DNI: <h:inputText id="dniNuevoUusario"
                                           value="#{datosMB.empleado.dni}"
@@ -44,12 +63,13 @@ and open the template in the editor.
                                      value="#{datosMB.empleado.cargo}"
                                                />
                         <h:message for="campocargo" />
-                        Administrador:  <input type="checkbox" name="admon"
-                                               value="#{datosMB.empleado.administrador}" />
+                        Administrador:  <h:selectBooleanCheckbox value = "#{datosMB.empleado.administrador}" 
+                                                                 id = "admon" /> 
                         <h:message for="admon" />
                         
                         
-                        <h:commandButton value="REGISTRAR NUEVO "  action="#{datosMB.nuevoEmpleado()}"/>
+                        <h:commandButton value="MODIFICAR"  action="#{datosMB.modificarEmpleado()}"/>
+                        <h:commandButton value="ARCHIVAR"  action="#{datosMB.archivar()}"/>
                         <h:commandButton value="CANCELAR" 
                                          immediate="true" />
 

@@ -41,7 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Empleado.findByCargo", query = "SELECT e FROM Empleado e WHERE e.cargo = :cargo"),
     @NamedQuery(name = "Empleado.findByAdministrador", query = "SELECT e FROM Empleado e WHERE e.administrador = :administrador"),
     @NamedQuery(name = "Empleado.findByActivo", query = "SELECT e FROM Empleado e WHERE e.activo = :activo"),
-    @NamedQuery(name = "Empleado.login", query = "SELECT e FROM Empleado e WHERE e.dni like :dni AND e.clave LIKE :clave ")})
+    @NamedQuery(name = "Empleado.login", query = "SELECT e FROM Empleado e WHERE e.dni like :dni AND e.clave LIKE :clave "),
+    //@NamedQuery(name = "Empleado.findByDniID", query = "SELECT e FROM Empleado e WHERE e.id = :id or e.dni like :dni" )
+})
 public class Empleado implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -82,8 +84,8 @@ public class Empleado implements Serializable {
     private Boolean administrador;
     @Column(name = "ACTIVO")
     private Boolean activo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleado")
-    private Collection<Horario> horarioCollection;
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "empleado")
+    //private Collection<Horario> horarioCollection;
 
     public Empleado() {
     }
@@ -173,14 +175,14 @@ public class Empleado implements Serializable {
         this.activo = activo;
     }
 
-    @XmlTransient
-    public Collection<Horario> getHorarioCollection() {
-        return horarioCollection;
-    }
-
-    public void setHorarioCollection(Collection<Horario> horarioCollection) {
-        this.horarioCollection = horarioCollection;
-    }
+//   @XmlTransient
+//    public Collection<Horario> getHorarioCollection() {
+//        return horarioCollection;
+//    }
+//
+//    public void setHorarioCollection(Collection<Horario> horarioCollection) {
+//        this.horarioCollection = horarioCollection;
+//    }
 
     @Override
     public int hashCode() {

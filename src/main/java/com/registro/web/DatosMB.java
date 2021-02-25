@@ -27,17 +27,14 @@ public class DatosMB implements Serializable{
     @EJB 
     private ServicioEmpleadoLocal servicio; 
     private String dniUsuario;
-    private String nombre; 
-    private String apellidos; 
-    private String correo;
-    private String cargo; 
-    private Boolean administrador; 
     private int id;
     private String clave;
-    private Empleado empleado = null;
+    private Empleado empleado;
+    private boolean visible = false;
     
     
     public DatosMB() {
+        empleado = new Empleado();
     }
     
     public String login() {
@@ -78,6 +75,10 @@ public class DatosMB implements Serializable{
         //Empleado nuevo = new Empleado();
         FacesContext ctx = FacesContext.getCurrentInstance();
         try{
+            if (empleado.getAdministrador() == null){
+                empleado.setAdministrador(false);
+            }
+            empleado.setActivo(true);
             servicio.nuevoEmpleado(empleado);
             
         }catch(ExcepcionesEmpleados e ){
@@ -92,60 +93,69 @@ public class DatosMB implements Serializable{
         return null; 
     }
 
+    public String modificarEmpleado(){
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        try{
+            if (empleado.getAdministrador() == null){
+                empleado.setAdministrador(false);
+            }
+            
+        servicio.modificarEmpleado(empleado);
+                        
+        }catch(ExcepcionesEmpleados e ){
+            //mns de error para mostrar en el formulario 
+            
+            FacesMessage mns = new FacesMessage("Tenemos inconvenientes para agregar un nuevo usuario");
+            //ctx.addMessage("formLogin:psw", mns);
+            ctx.addMessage(null, mns);
+
+            return "login.xhtml";
+        }
+        return null; 
+    }
+    
+    public String buscar(){
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        try {
+            
+            this.empleado = servicio.buscarEmpleado(empleado.getDni());
+            System.out.println(empleado);
+            visible = true;
+            return null;
+        } catch (ExcepcionesEmpleados ex) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, new FacesMessage(ex.getMessage()));
+            return null;
+        }
+    }
+    
+    public String archivar(){
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        try {
+            empleado.setActivo(false);
+            servicio.archivarEmpleado(empleado);
+            return null;
+        } catch (ExcepcionesEmpleados ex) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, new FacesMessage(ex.getMessage()));
+            return null;
+        }
+    }
+    
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
     public String getDniUsuario() {
         return dniUsuario;
     }
 
     public void setDniUsuario(String dniUsuario) {
         this.dniUsuario = dniUsuario;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
-    public Boolean getAdministrador() {
-        return administrador;
-    }
-
-    public void setAdministrador(Boolean administrador) {
-        this.administrador = administrador;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getClave() {
@@ -156,15 +166,23 @@ public class DatosMB implements Serializable{
         this.clave = clave;
     }
 
-    public Empleado getEmpleado() {
-        return empleado;
+    public boolean isVisible() {
+        return visible;
     }
 
-    public void setEmpleado(Empleado empleado) {
-        this.empleado = empleado;
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
-    
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+   
     
     
 }
