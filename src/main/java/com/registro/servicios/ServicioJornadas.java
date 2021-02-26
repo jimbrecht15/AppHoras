@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -79,6 +81,30 @@ public class ServicioJornadas implements ServicioJornadasLocal{
     @Override
     public void recuentoSemanal(int idEmpleado) throws ExcepcionesEmpleados {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void finalizarJornada(Integer idEmpleado) throws JornadasExcepcion {
+        if (idEmpleado == null ){
+            throw new JornadasExcepcion("Debe indicar el id de empleado");
+        }
+        
+        Query query = em.createNamedQuery("Horario.findJornadasNoFinalizadasEmpleado");
+        query.setParameter("idEmpleado", idEmpleado);
+        Date hoy = new Date();    
+        query.setParameter("fechaJornada", hoy, TemporalType.DATE);
+        
+        Horario jornada; 
+        try {
+            jornada = (Horario) query.getSingleResult();
+            jornada.setHorafin(hoy);
+        } catch (NonUniqueResultException e) {
+            throw  new JornadasExcepcion ("Hay más de una jornada iniciada para hoy");
+            
+        }catch (NoResultException e) {
+            throw  new JornadasExcepcion ("No hay ninguna jornada iniciada para hoy");
+    
+        }
     }
 
 }

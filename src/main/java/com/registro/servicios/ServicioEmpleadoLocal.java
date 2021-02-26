@@ -7,6 +7,8 @@ package com.registro.servicios;
 
 import com.registro.entidades.Empleado;
 import com.registro.excepciones.ExcepcionesEmpleados;
+import java.util.Collection;
+import java.util.List;
 import javax.ejb.Local;
 import javax.servlet.http.HttpSession;
 
@@ -28,5 +30,7 @@ public interface ServicioEmpleadoLocal {
     public void archivarEmpleado(Empleado empleado) throws ExcepcionesEmpleados;
 
     public Empleado buscarEmpleado(String dni) throws ExcepcionesEmpleados;
+    
+    public List<Empleado> getAllEmpleados();
     
 }

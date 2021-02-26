@@ -6,74 +6,135 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <head>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        
-         <h:form id="formBusc">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </h:head>
+    <h:body>
+        <ui:composition template="./vista/plantilla.xhtml">
+            <a href=""></a>
+            <ui:define name="titulo">
+                Inicio
+            </ui:define>
 
-              <h:outputText value="MANTENIMIENTO DE LA APLICACIÓN "
-                                  styleClass="titulo" /><br />
-             
-                    <h:panelGrid title="BUSCAR" columns="3">
-                        DNI: <h:inputText id="dni"
-                                          value="#{datosMB.empleado.dni}"
-                                            />
-                        <h:message for="dni" />
-                        
-                        <h:commandButton value="buscar" action="#{datosMB.buscar()}"/>
-                        <h:commandButton value="cancelar" action="resgistro1.xhtml"
-                                         immediate="true" />
+            <ui:define name="top">
+                INICIO
+            </ui:define>
 
-                    </h:panelGrid>
-                </h:form>
-        
-        <h:form id="formRegistro" rendered="#{datosMB.visible}">
-            
-             <br />
-                    <h:outputText value="MODIFICAR"
-                                  styleClass="titulo" /><br />
+            <ui:define name="content">
+                <div class="container-fluid">
+                    <div class="row row-cols-1">
+                        <div class="col">
+                            <div>
+                                <h:form id="formBusc">
 
-                
-                    <h:panelGrid title="Login" columns="3">
-                        DNI: <h:inputText id="dniNuevoUusario"
-                                          value="#{datosMB.empleado.dni}"
-                                             required="true"/>
-                        <h:message for="campodni" />
-                        NOMBRE: <h:inputText id="nombreNuevoUsuario"
-                                             value="#{datosMB.empleado.nombre}"
-                                             required="true"/>
-                        <h:message for="camponombre" />
-                        APELLIDOS:  <h:inputText id="apellidosNuevo"
-                                                value="#{datosMB.empleado.apellidos}"
-                                             required="true"/>
-                        <h:message for="campoapellidos" />
-                        CORREO:  <h:inputText id="correo"
-                                     value="#{datosMB.empleado.correo}"
-                                               />
-                        <h:message for="campocorreo" />
-                        CLAVE:  <h:inputText id="clave"
-                                            value="#{datosMB.empleado.clave}"
-                                               />
-                        <h:message for="campoclave" />
-                        CARGO:  <h:inputText id="cargo"
-                                     value="#{datosMB.empleado.cargo}"
-                                               />
-                        <h:message for="campocargo" />
-                        Administrador:  <h:selectBooleanCheckbox value = "#{datosMB.empleado.administrador}" 
-                                                                 id = "admon" /> 
-                        <h:message for="admon" />
-                        
-                        
-                        <h:commandButton value="MODIFICAR"  action="#{datosMB.modificarEmpleado()}"/>
-                        <h:commandButton value="ARCHIVAR"  action="#{datosMB.archivar()}"/>
-                        <h:commandButton value="CANCELAR" 
-                                         immediate="true" />
+                                    <h:outputText value="MANTENIMIENTO DE LA APLICACIÓN "
+                                                  styleClass="titulo" /><br />
 
-                    </h:panelGrid>
-                </h:form>
-    </body>
+                                    <h:panelGrid title="BUSCAR" columns="3">
+                                        DNI: <h:inputText id="dni"
+                                                          value="#{datosMB.empleado.dni}"
+                                                          />
+                                        <h:message for="dni" />
+
+                                        <h:commandButton value="buscar" action="#{datosMB.buscar()}"/>
+                                        <h:commandButton value="cancelar" action="resgistro1.xhtml"
+                                                         immediate="true" />
+
+                                    </h:panelGrid>
+                                </h:form>
+                            </div>
+
+                            <div>
+                                <h:form id="listaDatos">
+                                    <h:dataTable var="empleado" value="#{datosMB.listaEmpleados}"> 
+                                        <h:column>
+                                            <f:facet name ="header">ID</f:facet>                 
+                                                #{empleado.id}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name ="header">DNI</f:facet>                 
+                                                #{empleado.dni}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name ="header">Nombre</f:facet>                 
+                                                #{empleado.nombre}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name ="header">Apellidos</f:facet>                 
+                                                #{empleado.apellidos}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandButton value ="VER DETALLE"
+                                                             action="#{datosMB.detallesPordni(empleado.dni)}"></h:commandButton>
+                                        </h:column>
+
+
+                                    </h:dataTable>
+
+
+                                </h:form>
+                            </div>
+                        </div>
+                        <div class="col">
+
+
+                            <h:form id="formRegistro" rendered="#{datosMB.visible}">
+
+                                <br />
+                                <h:outputText value="MODIFICAR"
+                                              styleClass="titulo" /><br />
+
+
+                                <h:panelGrid title="Login" columns="3">
+                                    DNI: <h:inputText id="dniNuevoUusario"
+                                                      value="#{datosMB.empleado.dni}"
+                                                      required="true"/>
+                                    <h:message for="campodni" />
+                                    NOMBRE: <h:inputText id="nombreNuevoUsuario"
+                                                         value="#{datosMB.empleado.nombre}"
+                                                         required="true"/>
+                                    <h:message for="camponombre" />
+                                    APELLIDOS:  <h:inputText id="apellidosNuevo"
+                                                             value="#{datosMB.empleado.apellidos}"
+                                                             required="true"/>
+                                    <h:message for="campoapellidos" />
+                                    CORREO:  <h:inputText id="correo"
+                                                          value="#{datosMB.empleado.correo}"
+                                                          />
+                                    <h:message for="campocorreo" />
+                                    CLAVE:  <h:inputText id="clave"
+                                                         value="#{datosMB.empleado.clave}"
+                                                         />
+                                    <h:message for="campoclave" />
+                                    CARGO:  <h:inputText id="cargo"
+                                                         value="#{datosMB.empleado.cargo}"
+                                                         />
+                                    <h:message for="campocargo" />
+                                    Administrador:  <h:selectBooleanCheckbox value = "#{datosMB.empleado.administrador}" 
+                                                                             id = "admon" /> 
+                                    <h:message for="admon" />
+
+
+                                    <h:commandButton value="MODIFICAR"  action="#{datosMB.modificarEmpleado()}"/>
+                                    <h:commandButton value="ARCHIVAR"  action="#{datosMB.archivar()}"/>
+                                    <h:commandButton value="CANCELAR" 
+                                                     immediate="true" />
+
+                                </h:panelGrid>
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
 </html>

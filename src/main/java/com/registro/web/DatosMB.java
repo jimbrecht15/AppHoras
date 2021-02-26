@@ -9,6 +9,10 @@ import com.registro.entidades.Empleado;
 import com.registro.excepciones.ExcepcionesEmpleados;
 import com.registro.servicios.ServicioEmpleadoLocal;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -24,24 +28,38 @@ import javax.servlet.http.HttpSession;
 @ViewScoped
 public class DatosMB implements Serializable{
 
+    // siempre con vista view Scope poner que no devuelva nada public void 
+    // así sea return null evita así que se vuelva loco  
+    
     @EJB 
     private ServicioEmpleadoLocal servicio; 
+    
     private String dniUsuario;
     private int id;
     private String clave;
     private Empleado empleado;
     private boolean visible = false;
+    private HttpSession session;
+    private List<Empleado> listaEmpleados; 
     
     
     public DatosMB() {
-        empleado = new Empleado();
+        System.out.println(".... construye y aqui servioc es null");
     }
+    
+    @PostConstruct
+    public void ini(){
+        empleado = new Empleado();
+        listaEmpleados = servicio.getAllEmpleados();
+        System.out.println("Pase por aquí");
+    }
+    
     
     public String login() {
         
         //obtener la sesion de JSF 
         FacesContext ctx = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) ctx.getExternalContext().getSession(true);
+        session = (HttpSession) ctx.getExternalContext().getSession(true);
         try {
             servicio.login(dniUsuario, clave, session);
             empleado = (Empleado) session.getAttribute("empleado");
@@ -129,6 +147,20 @@ public class DatosMB implements Serializable{
         }
     }
     
+     public String detallesPordni(String dni){
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        try {
+            this.empleado = servicio.buscarEmpleado(dni);
+            visible = true;
+            return null;
+        } catch (ExcepcionesEmpleados ex) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, new FacesMessage(ex.getMessage()));
+            return null;
+        }
+    }
+    
+    
     public String archivar(){
         FacesContext ctx = FacesContext.getCurrentInstance();
         try {
@@ -140,6 +172,15 @@ public class DatosMB implements Serializable{
             fc.addMessage(null, new FacesMessage(ex.getMessage()));
             return null;
         }
+    }
+
+    
+    public Collection<Empleado> getListaEmpleados() {
+        return listaEmpleados;
+    }
+
+    public void setListaEmpleados(List<Empleado> listaEmpleados) {
+        this.listaEmpleados = listaEmpleados;
     }
     
     public Empleado getEmpleado() {
@@ -180,6 +221,14 @@ public class DatosMB implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
     }
 
    

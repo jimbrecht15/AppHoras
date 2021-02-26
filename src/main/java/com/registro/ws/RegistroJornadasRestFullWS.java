@@ -33,9 +33,38 @@ public class RegistroJornadasRestFullWS {
     
     @GET
     @Path("iniciarJornada/empleado/{idEmpleado}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     //@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void iniciarJornada (@PathParam("idEmpleado") Integer id ) throws JornadasExcepcion{
-        servicio.iniciarJornada(id);
+    public Respuesta iniciarJornada (@PathParam("idEmpleado") Integer id ) throws JornadasExcepcion{
+        Respuesta resultado = new Respuesta();
+        
+        try {
+            servicio.iniciarJornada(id);
+            resultado.setSinErrores(true);
+            resultado.setMensaje("Jornada Iniciada");
+        } catch (JornadasExcepcion e) {
+            resultado.setSinErrores(false);
+            resultado.setMensaje(e.getMessage() );
+        }
+        return resultado;
     }
     
+    
+    @GET
+    @Path("finalizarJornada/empleado/{idEmpleado}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    //@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Respuesta finalizarJornada (@PathParam("idEmpleado") Integer id ) throws JornadasExcepcion{
+        Respuesta resultado = new Respuesta();
+        
+        try {
+            servicio.finalizarJornada(id);
+            resultado.setSinErrores(true);
+            resultado.setMensaje("Jornada Finalizada");
+        } catch (JornadasExcepcion e) {
+            resultado.setSinErrores(false);
+            resultado.setMensaje(e.getMessage() );
+        }
+        return resultado;
+    }
 }

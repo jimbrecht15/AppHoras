@@ -9,6 +9,7 @@ import com.registro.entidades.Empleado;
 import com.registro.entidades.Horario;
 import com.registro.excepciones.ExcepcionesEmpleados;
 import com.registro.excepciones.JornadasExcepcion;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -111,7 +112,13 @@ public class ServicioEmpleado implements ServicioEmpleadoLocal {
         return empleados.get(0);
     }
 
-    
+    @Override
+    public List<Empleado> getAllEmpleados() {
+        System.out.println("He entrado ");
+       Query query = em.createNamedQuery("Empleado.findAll");
+        
+        return query.getResultList();
+    }
     
     
 }

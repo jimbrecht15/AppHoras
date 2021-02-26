@@ -6,13 +6,24 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <head>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        
+    </h:head>
+    <h:body>
+        <ui:composition template="./vista/plantilla.xhtml">
+            <a href=""></a>
+            <ui:define name="titulo">
+                Inicio
+            </ui:define>
+
+            <ui:define name="top">
+                INICIO
+            </ui:define>
+
+            <ui:define name="content">
         <h:form id="formLogin">
 
                     <br />
@@ -33,5 +44,8 @@ and open the template in the editor.
 
                     </h:panelGrid>
                 </h:form>
-    </body>
+                
+                </ui:define>
+        </ui:composition>
+    </h:body>
 </html>
