@@ -34,24 +34,6 @@ public class ServicioEmpleado implements ServicioEmpleadoLocal {
     //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistencePU");
     //EntityManager em = entityManagerFactory.createEntityManager();
     
-    @Override
-    public void login(String usuariodni, String clave, HttpSession session) throws ExcepcionesEmpleados {
-        Query query = em.createNamedQuery("Empleado.login");
-        query.setParameter("dni", usuariodni);
-        query.setParameter("clave", clave);
-        
-        try {
-            Empleado empleadoLogin = (Empleado) query.getSingleResult();
-            session.setAttribute("empleado", empleadoLogin);
-        } catch (javax.persistence.NoResultException e) {
-           throw new ExcepcionesEmpleados("La contraseña o el número de identificación no coinciden");
-        }
-    }
-
-    @Override
-    public void logout(HttpSession session) {
-         session.invalidate();
-    }
 
     @Override
     public void archivarEmpleado(Empleado empleado ) throws ExcepcionesEmpleados {
@@ -69,7 +51,6 @@ public class ServicioEmpleado implements ServicioEmpleadoLocal {
     }
 
    
-
     @Override
     public void nuevoEmpleado(Empleado empleado) throws ExcepcionesEmpleados {
         //sesion = HibernateUtil.getCurrentSession();
@@ -119,6 +100,7 @@ public class ServicioEmpleado implements ServicioEmpleadoLocal {
         
         return query.getResultList();
     }
+    
     
     
 }

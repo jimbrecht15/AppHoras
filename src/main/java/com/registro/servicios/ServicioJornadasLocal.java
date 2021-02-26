@@ -27,4 +27,5 @@ public interface ServicioJornadasLocal {
     public void iniciarJornada (Integer idEmpleado) throws JornadasExcepcion;
     public void finalizarJornada (Integer idEmpleado) throws JornadasExcepcion;
     public Collection<Horario> getAllRegistrosEmpleado(Integer idEmpleado) throws JornadasExcepcion;
+    public Horario horasIniciadasNoFinalizadas(Integer idEmpleado) throws JornadasExcepcion;
 }

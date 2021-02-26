@@ -19,9 +19,7 @@ import javax.servlet.http.HttpSession;
 @Local
 public interface ServicioEmpleadoLocal {
     
-    public void login(String usuario, String clave, HttpSession session) throws ExcepcionesEmpleados;
-
-    public void logout(HttpSession session);
+   
 
     public void nuevoEmpleado(Empleado empleado) throws ExcepcionesEmpleados;
 

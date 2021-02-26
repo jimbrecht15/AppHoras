@@ -54,41 +54,6 @@ public class DatosMB implements Serializable{
         System.out.println("Pase por aquí");
     }
     
-    
-    public String login() {
-        
-        //obtener la sesion de JSF 
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        session = (HttpSession) ctx.getExternalContext().getSession(true);
-        try {
-            servicio.login(dniUsuario, clave, session);
-            empleado = (Empleado) session.getAttribute("empleado");
-            return "resgistro1.xhtml";
-
-        } catch (ExcepcionesEmpleados e) {
-            this.dniUsuario = "";
-            this.clave = "";
-
-            //mns de error para mostrar en el formulario 
-            FacesMessage mns = new FacesMessage(e.getMessage());
-            //ctx.addMessage("formLogin:psw", mns);
-            ctx.addMessage(null, mns);
-
-            return "login.xhtml";
-        }
-    }
-
-    public String logout() {
-        
-        //obtener la sesion de JSF 
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        HttpSession sesion = (HttpSession) ctx.getExternalContext().getSession(true);
-        servicio.logout(sesion);
-        
-        return "login.xhtml";
-    }
-    
-    
     public String nuevoEmpleado(){
         //Empleado nuevo = new Empleado();
         FacesContext ctx = FacesContext.getCurrentInstance();

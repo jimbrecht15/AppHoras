@@ -32,13 +32,13 @@ and open the template in the editor.
 
                     <h:panelGrid title= "LOGIN" columns="3">
                         DNI: <h:inputText id="dni"
-                                         value="#{datosMB.dniUsuario}"
+                                          value="#{logear.dniUsuario}"
                                              required="true"/>
                         <h:message for="camponombre" />
                         CLAVE:  <h:inputText id="clave"
-                                            value="#{datosMB.clave}"
+                                             value="#{logear.clave}"
                                                />
-                        <h:commandButton value= "LOGIN" action= "#{datosMB.login()}" />
+                        <h:commandButton value= "LOGIN" action= "#{logear.login()}" />
                         <h:commandButton value= "CANCEL"
                                          immediate="true" />
 

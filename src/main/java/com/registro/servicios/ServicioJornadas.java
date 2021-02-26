@@ -107,4 +107,30 @@ public class ServicioJornadas implements ServicioJornadasLocal{
         }
     }
 
+    @Override
+    public Horario horasIniciadasNoFinalizadas(Integer idEmpleado) throws JornadasExcepcion {
+        
+        if(idEmpleado == null){
+            throw  new JornadasExcepcion("Debes indicar el id del empleado");
+        }
+        Query query = em.createNamedQuery("Horario.findJornadasNoFinalizadasEmpleado");
+        query.setParameter("idEmpleado", idEmpleado);
+        Date hoy = new Date();    
+        query.setParameter("fechaJornada", hoy, TemporalType.DATE);
+        
+        Horario jornada; 
+        try {
+            jornada = (Horario) query.getSingleResult();
+            return jornada;
+        } catch (NonUniqueResultException e) {
+            throw  new JornadasExcepcion ("Hay más de una jornada iniciada para hoy");
+            
+        }catch (NoResultException e) {
+            return null;
+    
+        }
+    }
+
+    
+    
 }

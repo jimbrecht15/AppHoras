@@ -42,20 +42,29 @@ and open the template in the editor.
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <h:panelGroup layout="block" rendered="#{datosMB.session != null }">
+            <h:panelGroup layout="block" rendered="#{logear.logeado }">
+                <h:panelGroup layout="block" rendered="#{logear.esAdministrador }">
                 <div class="collapse navbar-collapse" id="collapsibleNavbar" >
                     <ul class="navbar-nav" >
                         <li class="nav-item">
                             <a class="nav-link" href="faces/login.xhtml">LOGIN</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="faces/resgistrar1.xhtml">REGISTRAR</a>
+                            <a class="nav-link" href="faces/registro.xhtml">REGISTRAR</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="faces/modificarEmpleado.xhtml">MODIFICAR</a>
                         </li>    
                     </ul>
-                </div>  
+                </div>
+                </h:panelGroup>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar" >
+                    <ul class="navbar-nav" >
+                        <li class="nav-item">
+                            <a class="nav-link" href="faces/registroJornada.xhtml">REGISTRAR JORNADAS</a>
+                        </li>
+                        </ul>
+                </div>
             </h:panelGroup>
         </nav>
         </div>
